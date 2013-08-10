@@ -1,0 +1,21 @@
+body{
+	font-size: 20px;
+	font-family: Muli;
+}
+.moduleContainer{
+	color: red;
+	font-size: 16px;
+}
+.workArea{
+	margin-top: 20px;
+	float: left;
+	width: 100%;
+}
+.workArea input{
+	width: 500px;
+	display: none;
+}
+.workArea span{
+	width: 500px;
+	cursor: pointer;
+}

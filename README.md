@@ -1,4 +1,5 @@
-mentat
-======
+Project Template
 
-javascript steno application
+===============
+
+Scaffolding for project
