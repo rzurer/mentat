@@ -2,8 +2,7 @@
 
 "use strict";
 exports.module = function (common) {
-	var
-		that = {
+	var that = {
 			tempStorageSlot : "TranscriptName",
 			heartbeat: function (callback) {
 				if (callback) {

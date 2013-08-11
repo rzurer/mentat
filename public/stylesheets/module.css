@@ -1,6 +1,7 @@
-body{
+body, input{
 	font-size: 20px;
 	font-family: Muli;
+	padding-left: 5px;
 }
 .moduleContainer{
 	color: red;
@@ -13,9 +14,17 @@ body{
 }
 .workArea input{
 	width: 500px;
-	display: none;
 }
 .workArea span{
 	width: 500px;
 	cursor: pointer;
+}
+.edit-in-place {
+	padding:5px;
+}
+.edit-in-place input{
+	display: none;
+}
+.edit-in-place span{
+	display: inline;
 }

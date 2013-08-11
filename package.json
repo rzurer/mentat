@@ -1,18 +1,19 @@
 {
-  "name": "projectTemplate",
+  "name": "mentat",
   "description": "The template for a new web project",
   "version": "0.0.1-1",
   "dependencies": {
     "sinon": "1.6.x",
     "express": "3.x",
     "jade": "0.28.x",
-    "browserify-middleware": "1.5.x"
+    "browserify-middleware": "1.5.x",
+    "byline" : "3.1.x"
   },
-  "subdomain": "bzurer-projectTemplate",
+  "subdomain": "bzurer-mentat",
   "scripts": {
     "start": "node app.js"
   },
   "engines": {
-    "node": "0.8.x"
+    "node": "0.10.x"
   }
 }

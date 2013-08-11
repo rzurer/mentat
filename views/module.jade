@@ -2,8 +2,6 @@ extends layout
 block content
 	.moduleContainer
 	.workArea
-		span#lineNumber
-		input#firstLine(type='text')
-		span#outputSpan
 	script
-		initializeModule();
+		var lines = !{JSON.stringify(lines)};
+		initializeModule(lines);
