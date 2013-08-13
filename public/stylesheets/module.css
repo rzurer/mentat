@@ -25,6 +25,7 @@ body, input{
 .edit-in-place input{
 	display: none;
 }
-.edit-in-place span{
-	display: inline;
+.number{
+	color: #A9A9A9;
+	padding-right: 10px;
 }

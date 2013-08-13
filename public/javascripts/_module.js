@@ -1,55 +1,98 @@
 /*globals  $, window, localStorage*/
 "use strict";
-var initializeModule = function (lines) {
+var initializeModule = function (sourceLines) {
 	var healthCheck = function (date) {
 			$('.moduleContainer').text(date);
 		},
-		initializeWorkArea = function () {
-			$(".workArea").find('input').hide();
-			$(".workArea").find('span').show();
+		workArea = function () {
+			return $(".workArea");
 		},
-		leaveInput = function () {
+		initializeWorkArea = function () {
+			workArea().find('.read').show();
+			workArea().find('.write').hide();
+		},
+		createEditInPlaceControl = function (sourceLine) {
+			var editInPlaceControl = $('<div>').addClass('edit-in-place'),
+				number = $('<span>').addClass('number').text(sourceLine.number),
+				read = $('<span>').addClass('read').text(sourceLine.text),
+				write = $('<input>').attr('type', 'text').addClass('write').val(sourceLine.text);
+			return editInPlaceControl.append(number, read, write);
+		},
+		getNextEditInPlaceControl = function (editInPlaceControl) {
+			return editInPlaceControl.next(".edit-in-place");
+		},
+		getFirstEditInPlaceControl = function () {
+			return workArea().children(".edit-in-place:first");
+		},
+		getLine = function (editInPlaceControl) {
+			return {
+				number : editInPlaceControl.find('.number'),
+				read : editInPlaceControl.find('.read'),
+				write  : editInPlaceControl.find('.write')
+			};
+		},
+		doEditInPlace = function (line) {
 			initializeWorkArea();
-			$(this).prev('span').text($(this).val());
+			line.read.hide();
+			line.write.show();
+			line.write.select();
 		},
 		editInPlace = function () {
-			initializeWorkArea();
-			$(this).fadeOut(function () {
-				$(this).next('input').fadeIn();
-				$(this).next('input').focus();
-			});
+			var editInPlaceControl = $(this).parent();
+			var line = getLine(editInPlaceControl);
+			doEditInPlace(line);
 		},
-		editNext = function (control) {
-			initializeWorkArea();
-			var span = $(control).parent().next("div").find('span'),
-				input = span.next('input');
-			if (input) {
-				span.hide();
-				input.show();
-				input.select();
+		editFirstInPlace = function () {
+			doEditInPlace(getLine(getFirstEditInPlaceControl()));
+		},
+		editNextLine = function (control) {
+			var line, editInPlaceControl, nextEditInPlaceControl;
+			editInPlaceControl = $(control).parent();
+			line = getLine(editInPlaceControl);
+			nextEditInPlaceControl = getNextEditInPlaceControl(editInPlaceControl);
+			if (!nextEditInPlaceControl.get(0)) {
+				editFirstInPlace();
+				return;
 			}
+			line = getLine(nextEditInPlaceControl);
+			doEditInPlace(line);
+		},
+		onKeyDown = function (e) {
+			var editInPlaceControl, newEditInPlaceControl, line,
+				code = e.keyCode;
+			if (code === 13 && e.ctrlKey) {
+				newEditInPlaceControl = createEditInPlaceControl({number: 42});
+				workArea().append(newEditInPlaceControl);
+				assignEventHandlers(newEditInPlaceControl);
+				return;
+			}
+			if (code === 9 || code === 13) {
+				e.preventDefault();
+				editNextLine(this);
+				return;
+			}
+			editInPlaceControl = $(this).parent();
+			line = getLine(editInPlaceControl);
+			var text = e.shiftKey ? String.fromCharCode(code) : String.fromCharCode(code).toLowerCase();
+			line.read.text(line.write.val() + text);
+		},
+		assignEventHandlers = function (editInPlaceControl) {
+			var line = getLine(editInPlaceControl);
+			line.read.click(editInPlace);
+			line.write.keydown(onKeyDown);
 		},
 		displayDocument = function () {
-			lines.forEach(function (line) {
-				var div = $('<div>').addClass('edit-in-place');
-				div.append($('<span>').text(line.text));
-				div.append($('<input>').attr('type', 'text').val(line.text));
-				$(".workArea").append(div);
-			});
-		},
-		assignEventHandlers = function () {
-			$('.edit-in-place span').click(editInPlace);
-			$('.edit-in-place input').keydown(function (e) {
-				console.log(e.keyCode);
-				if (e.keyCode === 9 || e.keyCode === 13) {
-					e.preventDefault();
-					editNext(this);
-				}
+			var line;
+			sourceLines.forEach(function (sourceLine) {
+				var editInPlaceControl = createEditInPlaceControl(sourceLine),
+					line = getLine(editInPlaceControl);
+				workArea().append(editInPlaceControl);
+				line.read.click(editInPlace);
+				line.write.keydown(onKeyDown);
 			});
 		};
 	$(function () {
 		window.module.heartbeat(healthCheck);
 		displayDocument();
-		assignEventHandlers();
 	});
 };
