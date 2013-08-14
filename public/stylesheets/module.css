@@ -21,11 +21,20 @@ body, input{
 }
 .edit-in-place {
 	padding:5px;
+	width: 100%;
+	float: left;
 }
 .edit-in-place input{
+	width: 500px;
 	display: none;
+	width: 97%;
+}
+.edit-in-place span{
+	display: inline;
+	width: 97%;
+	float: left;
 }
 .number{
 	color: #A9A9A9;
-	padding-right: 10px;
+	width: 2% !important;
 }

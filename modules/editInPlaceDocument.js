@@ -1,8 +1,9 @@
 /*globals  $*/
 "use strict";
-var editInPlace = require('editInPlace');
-exports.editInPlaceDocument = function (parent, sourceLines) {
+exports.editInPlaceDocument = function (editInPlace) {
 	var controls = [],
+		parent,
+		sourceLines,
 		initializeWorkArea = function () {
 			controls.forEach(function (control) {
 				control.leaveEditMode();
@@ -33,7 +34,6 @@ exports.editInPlaceDocument = function (parent, sourceLines) {
 		onKeyDown = function (e) {
 			if (e.keyCode === 13 && e.ctrlKey) {
 				var control = appendControl();
-				control.write.keydown(onKeyDown);
 				return;
 			}
 			if (e.keyCode === 9 || e.keyCode === 13) {
@@ -41,8 +41,8 @@ exports.editInPlaceDocument = function (parent, sourceLines) {
 				editNext(this);
 			}
 		},
-
 		display = function () {
+			$('body').keydown(onKeyDown);
 			sourceLines.forEach(appendControl);
 			initializeWorkArea();
 		};
