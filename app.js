@@ -10,5 +10,5 @@ config.configure(app, express, browserify);
 routes.initialize(app);
 application = app.listen(3333);
 if (local) {
-    console.log('Express service listening on port %d, environment: %s', application.address().port, app.settings.env);
+  console.log('Express service listening on port %d, environment: %s', application.address().port, app.settings.env);
 }
