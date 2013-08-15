@@ -8,10 +8,11 @@ exports.editInPlaceDocument = function (editInPlace) {
       });
     },
     appendControl = function (parent, line) {
-      var control = editInPlace(line);
-      controls.push(control);
-      parent.append(control);
-      return control;
+      editInPlace.initialize(line);
+      controls.push(editInPlace);
+      parent.append(editInPlace.container);
+      console.log(editInPlace);
+      return editInPlace;
     },
     getNextControl = function (number) {
       controls.forEach(function (control) {
@@ -46,5 +47,5 @@ exports.editInPlaceDocument = function (editInPlace) {
       });
       initializeWorkArea();
     };
-  return display;
+  return { display : display};
 };

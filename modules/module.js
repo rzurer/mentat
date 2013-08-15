@@ -6,7 +6,8 @@ exports.module = function (common, editInPlaceDocument) {
         if (callback) {
           callback('The current date is ' + common.getCurrentDateTime());
         }
-      }
+      },
+      editInPlaceDocument : editInPlaceDocument
     };
   return that;
 };

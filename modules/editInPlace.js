@@ -2,30 +2,30 @@
 "use strict";
 exports.editInPlace = function () {
   var assignEventHandlers = function (control) {
-    control.container.click(control.enterEditMode);
-    control.read.click(control.enterEditMode);
-    control.write.change(function () {
-      control.read.text(control.write.val());
-    });
-  },
-    control = {
+      control.container.click(control.enterEditMode);
+      control.read.click(control.enterEditMode);
+      control.write.change(function () {
+        control.read.text(control.write.val());
+      });
+    },
+    editInPlace = {
       enterEditMode : function () {
-        control.read.hide();
-        control.write.show();
-        control.write.select();
+        editInPlace.read.hide();
+        editInPlace.write.show();
+        editInPlace.write.select();
       },
       leaveEditMode : function () {
-        control.read.show();
-        control.write.hide();
+        editInPlace.read.show();
+        editInPlace.write.hide();
       },
       initialize : function (line) {
-        control.container = $('<div>').addClass('edit-in-place');
-        control.number = $('<span>').addClass('number').text(line.number);
-        control.read = $('<span>').addClass('read').text(line.text);
-        control.write = $('<input>').attr('type', 'text').attr('id', line.number).addClass('write').val(line.text);
-        control.container.append(control.number, control.read, control.write);
-        assignEventHandlers(control);
+        editInPlace.container = $('<div>').addClass('edit-in-place');
+        editInPlace.number = $('<span>').addClass('number').text(line.number);
+        editInPlace.read = $('<span>').addClass('read').text(line.text);
+        editInPlace.write = $('<input>').attr('type', 'text').attr('id', line.number).addClass('write').val(line.text);
+        editInPlace.container.append(editInPlace.number, editInPlace.read, editInPlace.write);
+        assignEventHandlers(editInPlace);
       }
     };
-  return control;
+  return editInPlace.container;
 };
