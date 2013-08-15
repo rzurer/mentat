@@ -15,17 +15,19 @@ exports.editInPlace = function () {
         editInPlace.write.select();
       },
       leaveEditMode : function () {
+        console.log(editInPlace.id);
         editInPlace.read.show();
         editInPlace.write.hide();
       },
       initialize : function (line) {
+        editInPlace.id = line.number;
         editInPlace.container = $('<div>').addClass('edit-in-place');
-        editInPlace.number = $('<span>').addClass('number').text(line.number);
+        editInPlace.number = $('<span>').addClass('number').text(editInPlace.id);
         editInPlace.read = $('<span>').addClass('read').text(line.text);
-        editInPlace.write = $('<input>').attr('type', 'text').attr('id', line.number).addClass('write').val(line.text);
+        editInPlace.write = $('<input>').attr('type', 'text').attr('id',  editInPlace.id).addClass('write').val(line.text);
         editInPlace.container.append(editInPlace.number, editInPlace.read, editInPlace.write);
         assignEventHandlers(editInPlace);
       }
     };
-  return editInPlace.container;
+  return editInPlace;
 };

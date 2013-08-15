@@ -11,8 +11,6 @@ exports.editInPlaceDocument = function (editInPlace) {
       editInPlace.initialize(line);
       controls.push(editInPlace);
       parent.append(editInPlace.container);
-      console.log(editInPlace);
-      return editInPlace;
     },
     getNextControl = function (number) {
       controls.forEach(function (control) {
@@ -41,7 +39,7 @@ exports.editInPlaceDocument = function (editInPlace) {
       }
     },
     display = function (parent, sourceLines) {
-      $('body').keydown(onKeyDown);
+      //$('body').keydown(onKeyDown);
       sourceLines.forEach(function (line) {
         appendControl(parent, line);
       });
