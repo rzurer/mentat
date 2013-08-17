@@ -1,16 +1,18 @@
 /*globals  $*/
 "use strict";
-exports.editInPlaceDocument = function (editInPlace) {
+exports.editInPlaceDocument = function (editInPlaceControl) {
   var controls = [],
-    initializeWorkArea = function () {
+    initializeWorkArea = function (currentControlId) {
       controls.forEach(function (control) {
-        control.leaveEditMode();
+        if (control.id !== currentControlId) {
+          control.leaveEditMode();
+        }
       });
     },
     appendControl = function (parent, line) {
-      editInPlace.initialize(line);
-      controls.push(editInPlace);
-      parent.append(editInPlace.container);
+      var control = editInPlaceControl.create(line);
+      controls.push(control);
+      parent.append(control.container);
     },
     getNextControl = function (number) {
       controls.forEach(function (control) {
@@ -45,5 +47,6 @@ exports.editInPlaceDocument = function (editInPlace) {
       });
       initializeWorkArea();
     };
+  editInPlaceControl.addListener("edit", initializeWorkArea);
   return { display : display};
 };

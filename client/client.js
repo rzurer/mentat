@@ -2,10 +2,11 @@
 /*global  window, localStorage, $*/
 "use strict";
 var initialize = function () {
-    var common, module, editInPlace, editInPlaceDocument;
+    var eventListener, common, module, editInPlaceControl, editInPlaceDocument;
+    eventListener = require('../modules/eventListener').eventListener();
     common = require('../modules/common').common(localStorage);
-    editInPlace = require('../modules/editInPlace').editInPlace();
-    editInPlaceDocument = require('../modules/editInPlaceDocument').editInPlaceDocument(editInPlace);
+    editInPlaceControl = require('../modules/editInPlaceControl').editInPlaceControl(eventListener);
+    editInPlaceDocument = require('../modules/editInPlaceDocument').editInPlaceDocument(editInPlaceControl);
     module = require('../modules/module').module(common, editInPlaceDocument);
     window.module = module;
   };
