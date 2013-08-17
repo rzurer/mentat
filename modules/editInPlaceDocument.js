@@ -2,51 +2,52 @@
 "use strict";
 exports.editInPlaceDocument = function (editInPlaceControl) {
   var controls = [],
-    initializeWorkArea = function (currentControlId) {
+    controlIndex = 0,
+    parentControl,
+    leaveEditMode = function () {
       controls.forEach(function (control) {
-        if (control.id !== currentControlId) {
+        if (control.id !== controlIndex) {
           control.leaveEditMode();
         }
       });
     },
-    appendControl = function (parent, line) {
-      var control = editInPlaceControl.create(line);
+    editCallback = function (index) {
+      controlIndex = index;
+      leaveEditMode();
+    },
+    appendControl = function (line) {
+      var control = editInPlaceControl.create(controls.length, line);
       controls.push(control);
-      parent.append(control.container);
+      parentControl.append(control.container);
     },
-    getNextControl = function (number) {
-      controls.forEach(function (control) {
-        if (control.number === number + 1) {
-          return control;
-        }
-      });
-    },
-    editNext = function (ctrl) {
-      var number = ctrl.parent().attr('id'),
-        nextControl = getNextControl(number);
-      if (nextControl) {
-        nextControl.enterEditMode();
-        return;
+    editNext = function () {
+      if (controlIndex < controls.length - 1) {
+        controlIndex += 1;
+      } else {
+        controlIndex = 0;
       }
-      controls[0].enterEditMode();
+      controls[controlIndex].enterEditMode();
     },
     onKeyDown = function (e) {
       if (e.keyCode === 13 && e.ctrlKey) {
-        var control = appendControl();
+        leaveEditMode();
+        appendControl({number : controls.length + 1, text : ''});
+        controlIndex = controls.length -1;
+        controls[controlIndex].enterEditMode();
         return;
       }
       if (e.keyCode === 9 || e.keyCode === 13) {
         e.preventDefault();
-        editNext(this);
+        editNext();
       }
     },
     display = function (parent, sourceLines) {
-      //$('body').keydown(onKeyDown);
+      parentControl = parent;
+      $('body').keydown(onKeyDown);
       sourceLines.forEach(function (line) {
-        appendControl(parent, line);
+        appendControl(line, parentControl);
       });
-      initializeWorkArea();
     };
-  editInPlaceControl.addListener("edit", initializeWorkArea);
+  editInPlaceControl.addListener("edit", editCallback);
   return { display : display};
 };
