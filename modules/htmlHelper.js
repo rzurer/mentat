@@ -12,9 +12,6 @@ exports.htmlHelper = function () {
       array.forEach(function (item) {
         select.append($("<option>").text(item));
       });
-    },
-    createSelect : function (array, initialValue, className) {
-      return that.populateSelect($("<select>"), array, initialValue, className);
     }
   };
   return that;

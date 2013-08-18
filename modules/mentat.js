@@ -1,6 +1,6 @@
 /*globals $*/
 "use strict";
-exports.mentat = function (common, router) {
+exports.mentat = function (common, router, editInPlaceDocument) {
   var that = {
       heartbeat: function (callback) {
         if (callback) {
@@ -9,9 +9,12 @@ exports.mentat = function (common, router) {
       },
       getDocumentNames : function (callback) {
         router.getDocumentNames(callback);
-      }
-      getDocumentNames : function (callback) {
-        router.getDocumentNames(callback);
+      },
+      getDocumentLines : function (documentName, callback) {
+        router.getDocumentLines(documentName, callback);
+      },
+      displayDocument : function (parent, sourceLines) {
+        editInPlaceDocument.display(parent, sourceLines);
       }
     };
   return that;

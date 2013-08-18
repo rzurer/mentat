@@ -5,8 +5,8 @@ exports.router = function (urls, window, postFunction) {
     getDocumentNames : function (callback) {
       postFunction(urls.getDocumentNames, null, callback);
     },
-    getDocumentNames : function (callback) {
-      postFunction(urls.getDocumentNames, null, callback);
+    getDocumentLines : function (documentName, callback) {
+      postFunction(urls.getDocumentLines, {documentName : documentName}, callback);
     }
   };
 };

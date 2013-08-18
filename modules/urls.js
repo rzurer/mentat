@@ -1,4 +1,5 @@
 "use strict";
 exports.urls = {
-  getDocumentNames : '/getDocumentNames'
+  getDocumentNames : '/getDocumentNames',
+  getDocumentLines : '/getDocumentLines'
 };

@@ -7,7 +7,7 @@ exports.fileClerk = function (fs, byline, documentsPath) {
     getDocumentLines : function (documentName, cb) {
       var lines = [],
         lineNumber = 1,
-        stream = byline(fs.createReadStream(documentName));
+        stream = byline(fs.createReadStream(documentsPath + documentName));
       stream.on('data', function (line) {
         lines.push({number: lineNumber, text : line.toString('utf-8')});
         lineNumber += 1;

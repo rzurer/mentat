@@ -22,7 +22,7 @@ var postFunction = function (url, input, callback) {
     editInPlaceControl = require('../modules/editInPlaceControl').editInPlaceControl(eventListener);
     editInPlaceDocument = require('../modules/editInPlaceDocument').editInPlaceDocument(editInPlaceControl);
     htmlHelper = require('../modules/htmlHelper').htmlHelper();
-    mentat = require('../modules/mentat').mentat(common, router);
+    mentat = require('../modules/mentat').mentat(common, router, editInPlaceDocument);
     window.mentat = mentat;
     window.htmlHelper = htmlHelper;
   };
