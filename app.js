@@ -1,9 +1,13 @@
 'use strict';
-var local, browserify, express, routes, config, app, application;
+var local, browserify, express, routes, config, app, application, fs, byline, documentsPath, fileClerk;
 local = true;
 browserify = require('browserify-middleware');
 express = require('express');
-routes = require('./modules/routes').routes();
+fs = require('fs');
+byline = require('byline');
+documentsPath = './data';
+fileClerk = require('./modules/fileClerk').fileClerk(fs, byline, documentsPath);
+routes = require('./modules/routes').routes(fileClerk);
 config = require('./config');
 app = express();
 config.configure(app, express, browserify);

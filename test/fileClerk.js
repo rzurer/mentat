@@ -6,11 +6,13 @@ var sinon = require('sinon'),
   },
   teardown = function () {
   };
-describe('module_module', function () {
+describe('module_fileClerk', function () {
   beforeEach(setup);
   afterEach(teardown);
-  describe('initialize', function () {
-    it("should do something", function () {
+  describe('getLines', function () {
+    it("should call read stream with file name", function () {
     });
   });
 });
+
+//fs.createReadStream(fileName)

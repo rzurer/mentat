@@ -32,7 +32,7 @@ exports.editInPlaceDocument = function (editInPlaceControl) {
       if (e.keyCode === 13 && e.ctrlKey) {
         leaveEditMode();
         appendControl({number : controls.length + 1, text : ''});
-        controlIndex = controls.length -1;
+        controlIndex = controls.length - 1;
         controls[controlIndex].enterEditMode();
         return;
       }
