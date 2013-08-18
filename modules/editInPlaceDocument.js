@@ -1,39 +1,39 @@
 /*globals  $*/
 "use strict";
-exports.editInPlaceDocument = function (editInPlaceControl) {
-  var controls = [],
-    controlIndex = 0,
-    parentControl,
+exports.editInPlaceDocument = function (editInPlaceControlFactory) {
+  var editInPlaceControls = [],
+    currentIndex = 0,
+    parentHtmlControl,
     leaveEditMode = function () {
-      controls.forEach(function (control) {
-        if (control.id !== controlIndex) {
-          control.leaveEditMode();
+      editInPlaceControls.forEach(function (editInPlaceControl) {
+        if (editInPlaceControl.id !== currentIndex) {
+          editInPlaceControl.leaveEditMode();
         }
       });
     },
     editCallback = function (index) {
-      controlIndex = index;
+      currentIndex = index;
       leaveEditMode();
     },
     appendControl = function (line) {
-      var control = editInPlaceControl.create(controls.length, line);
-      controls.push(control);
-      parentControl.append(control.container);
+      var editInPlaceControl = editInPlaceControlFactory.create(editInPlaceControls.length, line);
+      editInPlaceControls.push(editInPlaceControl);
+      parentHtmlControl.append(editInPlaceControl.container);
     },
     editNext = function () {
-      if (controlIndex < controls.length - 1) {
-        controlIndex += 1;
+      if (currentIndex < editInPlaceControls.length - 1) {
+        currentIndex += 1;
       } else {
-        controlIndex = 0;
+        currentIndex = 0;
       }
-      controls[controlIndex].enterEditMode();
+      editInPlaceControls[currentIndex].enterEditMode();
     },
     onKeyDown = function (e) {
       if (e.keyCode === 13 && e.ctrlKey) {
         leaveEditMode();
-        appendControl({number : controls.length + 1, text : ''});
-        controlIndex = controls.length - 1;
-        controls[controlIndex].enterEditMode();
+        appendControl({number : editInPlaceControls.length + 1, text : ''});
+        currentIndex = editInPlaceControls.length - 1;
+        editInPlaceControls[currentIndex].enterEditMode();
         return;
       }
       if (e.keyCode === 9 || e.keyCode === 13) {
@@ -42,12 +42,12 @@ exports.editInPlaceDocument = function (editInPlaceControl) {
       }
     },
     display = function (parent, sourceLines) {
-      parentControl = parent;
+      parentHtmlControl = parent;
       $('body').keydown(onKeyDown);
       sourceLines.forEach(function (line) {
-        appendControl(line, parentControl);
+        appendControl(line, parentHtmlControl);
       });
     };
-  editInPlaceControl.addListener("edit", editCallback);
+  editInPlaceControlFactory.addListener("edit", editCallback);
   return { display : display};
 };

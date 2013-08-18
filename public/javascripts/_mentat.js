@@ -10,6 +10,7 @@ window.initializeMentat = function () {
     },
     initializeDocument = function (sourceLines) {
       var parent = $('.workArea');
+      parent.empty();
       window.mentat.displayDocument(parent, sourceLines);
     },
     displayDocument = function () {
