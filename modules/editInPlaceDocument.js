@@ -1,9 +1,17 @@
 /*globals  $*/
 "use strict";
-exports.editInPlaceDocument = function (editInPlaceControlFactory) {
+exports.editInPlaceDocument = function (common, editInPlaceControlFactory) {
   var editInPlaceControls = [],
     currentIndex = 0,
     parentHtmlControl,
+    createLine = function (number, text) {
+      return {number: number, text : text};
+    },
+    getLines = function () {
+      return editInPlaceControls.map(function (editInPlaceControl) {
+        return editInPlaceControl.line;
+      });
+    },
     leaveEditMode = function () {
       editInPlaceControls.forEach(function (editInPlaceControl) {
         if (editInPlaceControl.id !== currentIndex) {
@@ -14,6 +22,14 @@ exports.editInPlaceDocument = function (editInPlaceControlFactory) {
     editCallback = function (index) {
       currentIndex = index;
       leaveEditMode();
+    },
+    changeCallback = function (id, text) {
+      editInPlaceControls.forEach(function (editInPlaceControl) {
+        if (editInPlaceControl.id === id) {
+          editInPlaceControl.line.text = text;
+        }
+      });
+      common.placeInLocalStorage('test', getLines());
     },
     appendControl = function (line) {
       var editInPlaceControl = editInPlaceControlFactory.create(editInPlaceControls.length, line);
@@ -49,5 +65,6 @@ exports.editInPlaceDocument = function (editInPlaceControlFactory) {
       });
     };
   editInPlaceControlFactory.addListener("edit", editCallback);
+  editInPlaceControlFactory.addListener("change", changeCallback);
   return { display : display};
 };

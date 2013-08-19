@@ -14,8 +14,10 @@ exports.editInPlaceControlFactory = function (eventListener) {
       control.write.select();
       eventListener.fire("edit", [control.id]);
     },
+    line : {},
     create : function (id, line) {
       var control = {};
+      control.line = line;
       control.id = id;
       control.container = $('<div>').addClass('edit-in-place');
       control.number = $('<span>').addClass('number').text(line.number);
@@ -25,7 +27,9 @@ exports.editInPlaceControlFactory = function (eventListener) {
         that.enterEditMode(control);
       });
       control.write.change(function () {
-        control.read.text(control.write.val());
+        var text = control.write.val();
+        control.read.text(text);
+        eventListener.fire("change", [control.id, text]);
       });
       control.container.append(control.number, control.read, control.write);
       control.enterEditMode = function () {

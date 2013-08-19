@@ -12,10 +12,15 @@ window.initializeMentat = function () {
       var parent = $('.workArea');
       parent.empty();
       window.mentat.displayDocument(parent, sourceLines);
+      //remonder: rename local storage slot;
+      //relate slot to file name chosen
+      //if not in local storage load from file.
+      //window.mentat.displayDocument(parent, JSON.parse(localStorage.test));
     },
     displayDocument = function () {
-      var documentName = $(this).val();
-      window.mentat.getDocumentLines(documentName, initializeDocument);
+      initializeDocument();
+      // var documentName = $(this).val();
+      // window.mentat.getDocumentLines(documentName, initializeDocument);
     },
     assignEventHandlers = function () {
       $('#documentsSelect').change(displayDocument);
