@@ -47,3 +47,14 @@ body, input{
 	padding: 5px;
 	color: green;
 }
+.indent{
+	margin-left: 30px;
+}
+.mover{
+	padding: 5px;
+	cursor: pointer;
+}
+.isSelected {
+	color: lightblue;
+	font-weight: bold;
+}

@@ -19,10 +19,18 @@ exports.editInPlaceControlFactory = function (eventListener) {
       var control = {};
       control.line = line;
       control.id = id;
+
       control.container = $('<div>').addClass('edit-in-place');
       control.number = $('<span>').addClass('number').text(line.number);
       control.read = $('<span>').addClass('read').text(line.text);
       control.write = $('<input>').attr('type', 'text').addClass('write').val(line.text);
+      control.isSelected = function (isSelected) {
+        if (isSelected) {
+          control.number.addClass('selected');
+          return;
+        }
+        control.number.removeClass('selected');
+      };
       control.read.click(function () {
         that.enterEditMode(control);
       });

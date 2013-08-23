@@ -5,6 +5,9 @@ exports.routes = function (fileClerk) {
       app.get('/', function (req, res) {
         res.render('mentat');
       });
+      app.get('/indent', function (req, res) {
+        res.render('indent');
+      });
       app.post('/getDocumentLines', function (req, res) {
         var documentName = req.param('documentName');
         fileClerk.getDocumentLines(documentName, function (lines) {

@@ -1,0 +1,30 @@
+extends layout 
+block content
+  .parent
+    div.indent
+      img.mover.left(src='images/unindent.png', width='20px')
+      img.mover.right(src='images/indent.png', width='20px')
+      span here is the text
+  script
+    var goRight = function(str) {
+      var indexOfPx = str.indexOf("px"),
+          val = str.substring(0, indexOfPx);
+      return (Number(val) + 10) + 'px' ;
+    },
+    goLeft = function(str) {
+      var indexOfPx = str.indexOf("px"),
+          val = str.substring(0, indexOfPx);
+      return (Number(val) - 10) + 'px' ;
+    },
+    moveLeft = function (){
+      var setting = $('.parent').css("margin-left");
+      $('.parent').css("margin-left", goLeft(setting));
+    },
+    moveRight = function () {
+      var setting = $('.parent').css("margin-left");
+      $('.parent').css("margin-left", goRight(setting));
+    };
+    $(function () {
+        $('.left').click(moveLeft);
+        $('.right').click(moveRight);
+    });

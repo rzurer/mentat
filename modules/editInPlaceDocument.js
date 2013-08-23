@@ -1,5 +1,5 @@
 /*globals  $*/
-"use strict";
+"0use strict";
 exports.editInPlaceDocument = function (common, editInPlaceControlFactory) {
   var editInPlaceControls = [],
     currentIndex = 0,

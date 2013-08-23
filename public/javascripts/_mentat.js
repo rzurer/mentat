@@ -15,6 +15,7 @@ window.initializeMentat = function () {
       //remonder: rename local storage slot;
       //relate slot to file name chosen
       //if not in local storage load from file.
+      
       //window.mentat.displayDocument(parent, JSON.parse(localStorage.test));
     },
     displayDocument = function () {
