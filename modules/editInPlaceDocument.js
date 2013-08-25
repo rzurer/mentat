@@ -1,21 +1,21 @@
 /*globals  $*/
-"0use strict";
-exports.editInPlaceDocument = function (common, editInPlaceControlFactory) {
-  var editInPlaceControls = [],
+"use strict";
+exports.editInPlaceDocument = function (common, editInPlaceControl) {
+  var controlsArray = [],
     currentIndex = 0,
     parentHtmlControl,
     createLine = function (number, text) {
       return {number: number, text : text};
     },
     getLines = function () {
-      return editInPlaceControls.map(function (editInPlaceControl) {
-        return editInPlaceControl.line;
+      return controlsArray.map(function (item) {
+        return item.line;
       });
     },
     leaveEditMode = function () {
-      editInPlaceControls.forEach(function (editInPlaceControl) {
-        if (editInPlaceControl.id !== currentIndex) {
-          editInPlaceControl.leaveEditMode();
+      controlsArray.forEach(function (item) {
+        if (item.id !== currentIndex) {
+          item.leaveEditMode();
         }
       });
     },
@@ -24,32 +24,32 @@ exports.editInPlaceDocument = function (common, editInPlaceControlFactory) {
       leaveEditMode();
     },
     changeCallback = function (id, text) {
-      editInPlaceControls.forEach(function (editInPlaceControl) {
-        if (editInPlaceControl.id === id) {
-          editInPlaceControl.line.text = text;
+      controlsArray.forEach(function (item) {
+        if (item.id === id) {
+          item.line.text = text;
         }
       });
       common.placeInLocalStorage('test', getLines());
     },
     appendControl = function (line) {
-      var editInPlaceControl = editInPlaceControlFactory.create(editInPlaceControls.length, line);
-      editInPlaceControls.push(editInPlaceControl);
-      parentHtmlControl.append(editInPlaceControl.container);
+      var item = editInPlaceControl.create(controlsArray.length, line);
+      controlsArray.push(item);
+      parentHtmlControl.append(item.container);
     },
     editNext = function () {
-      if (currentIndex < editInPlaceControls.length - 1) {
+      if (currentIndex < controlsArray.length - 1) {
         currentIndex += 1;
       } else {
         currentIndex = 0;
       }
-      editInPlaceControls[currentIndex].enterEditMode();
+      controlsArray[currentIndex].enterEditMode();
     },
     onKeyDown = function (e) {
       if (e.keyCode === 13 && e.ctrlKey) {
         leaveEditMode();
-        appendControl({number : editInPlaceControls.length + 1, text : ''});
-        currentIndex = editInPlaceControls.length - 1;
-        editInPlaceControls[currentIndex].enterEditMode();
+        appendControl({number : controlsArray.length + 1, text : ''});
+        currentIndex = controlsArray.length - 1;
+        controlsArray[currentIndex].enterEditMode();
         return;
       }
       if (e.keyCode === 9 || e.keyCode === 13) {
@@ -64,7 +64,7 @@ exports.editInPlaceDocument = function (common, editInPlaceControlFactory) {
         appendControl(line, parentHtmlControl);
       });
     };
-  editInPlaceControlFactory.addListener("edit", editCallback);
-  editInPlaceControlFactory.addListener("change", changeCallback);
+  editInPlaceControl.addListener("edit", editCallback);
+  editInPlaceControl.addListener("change", changeCallback);
   return { display : display};
 };

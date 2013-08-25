@@ -2,13 +2,11 @@ body, input{
 	font-size: 16px;
 	font-family: Muli;
 	padding-left: 5px;
+	background-color: #ECFAEB;
 }
 .banner{
 	color: red;
 	font-size: 16px;
-}
-.header{
-
 }
 .workArea{
 	margin-top: 20px;
@@ -55,6 +53,6 @@ body, input{
 	cursor: pointer;
 }
 .isSelected {
-	color: lightblue;
+	color: #1DAB0E;
 	font-weight: bold;
 }

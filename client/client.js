@@ -14,13 +14,13 @@ var postFunction = function (url, input, callback) {
     });
   },
   initialize = function () {
-    var eventListener, common, mentat, editInPlaceControlFactory, editInPlaceDocument, fileClerk, fs, byline, documentsPath, urls, router, htmlHelper;
+    var eventListener, common, mentat, editInPlaceControl, editInPlaceDocument, fileClerk, fs, byline, documentsPath, urls, router, htmlHelper;
     urls = require('../modules/urls').urls;
     router = require('../modules/router').router(urls, window, postFunction);
     eventListener = require('../modules/eventListener').eventListener();
     common = require('../modules/common').common(localStorage);
-    editInPlaceControlFactory = require('../modules/editInPlaceControlFactory').editInPlaceControlFactory(eventListener);
-    editInPlaceDocument = require('../modules/editInPlaceDocument').editInPlaceDocument(common, editInPlaceControlFactory);
+    editInPlaceControl = require('../modules/editInPlaceControl').editInPlaceControl(eventListener);
+    editInPlaceDocument = require('../modules/editInPlaceDocument').editInPlaceDocument(common, editInPlaceControl);
     htmlHelper = require('../modules/htmlHelper').htmlHelper();
     mentat = require('../modules/mentat').mentat(common, router, editInPlaceDocument);
     window.mentat = mentat;
