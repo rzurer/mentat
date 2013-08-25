@@ -12,6 +12,15 @@ exports.editInPlaceDocument = function (common, editInPlaceControl) {
         return item.line;
       });
     },
+    getSelectedControl = function () {
+      var result;
+      controlsArray.forEach(function (item) {
+        if (item.selected) {
+          result = item;
+        }
+      });
+      return result;
+    },
     leaveEditMode = function () {
       controlsArray.forEach(function (item) {
         if (item.id !== currentIndex) {
@@ -45,12 +54,22 @@ exports.editInPlaceDocument = function (common, editInPlaceControl) {
       controlsArray[currentIndex].enterEditMode();
     },
     onKeyDown = function (e) {
-      if (e.keyCode === 13 && e.ctrlKey) {
-        leaveEditMode();
-        appendControl({number : controlsArray.length + 1, text : ''});
-        currentIndex = controlsArray.length - 1;
-        controlsArray[currentIndex].enterEditMode();
-        return;
+      if (e.ctrlKey) {
+        if (e.keyCode === 13) {
+          leaveEditMode();
+          appendControl({number : controlsArray.length + 1, text : ''});
+          currentIndex = controlsArray.length - 1;
+          controlsArray[currentIndex].enterEditMode();
+          return;
+        }
+        if (e.keyCode === 37) {
+          getSelectedControl().outdent();
+          e.preventDefault();
+        }
+        if (e.keyCode === 39) {
+          getSelectedControl().indent();
+          e.preventDefault();
+        }
       }
       if (e.keyCode === 9 || e.keyCode === 13) {
         e.preventDefault();

@@ -13,12 +13,15 @@ exports.editInPlaceControl = function (eventListener) {
       line : {},
       create : function (id, line) {
         var control = {};
+        control.marginLeft = 0;
+        control.tabWidth = 40;
         control.line = line;
         control.id = id;
         control.container = $('<div>').addClass('edit-in-place');
         control.number = $('<span>').addClass('number').text(line.number);
         control.read = $('<span>').addClass('read').text(line.text);
         control.write = $('<input>').attr('type', 'text').addClass('write').val(line.text);
+        control.dividingLine = $("<span>").addClass('dividingLine');
         control.setSelected = function (isSelected) {
           control.selected = isSelected;
           eventListener.fire("selected", [control.id]);
@@ -36,7 +39,7 @@ exports.editInPlaceControl = function (eventListener) {
           control.read.text(text);
           eventListener.fire("change", [control.id, text]);
         });
-        control.container.append(control.number, control.read, control.write);
+        control.container.append(control.number, control.read, control.write, control.dividingLine);
         control.enterEditMode = function () {
           that.enterEditMode(control);
         };
@@ -44,6 +47,18 @@ exports.editInPlaceControl = function (eventListener) {
           control.setSelected(false);
           control.read.show();
           control.write.hide();
+        };
+        control.outdent = function () {
+          if (control.marginLeft >= control.tabWidth) {
+            control.marginLeft -= control.tabWidth;
+            control.read.css('margin-left', control.marginLeft + 'px');
+            control.write.css('margin-left', control.marginLeft + 'px');
+          }
+        };
+        control.indent = function () {
+          control.marginLeft += control.tabWidth;
+          control.read.css('margin-left', control.marginLeft + 'px');
+          control.write.css('margin-left', control.marginLeft + 'px');
         };
         return control;
       }
